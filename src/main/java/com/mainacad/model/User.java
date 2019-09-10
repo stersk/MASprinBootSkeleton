@@ -1,9 +1,6 @@
 package com.mainacad.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -12,6 +9,7 @@ import java.io.Serializable;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode
 
 @Entity
 @Table(name = "users")
@@ -23,15 +21,19 @@ public class User implements Serializable {
     private Integer id;
 
     @Column(name = "login")
+    @EqualsAndHashCode.Exclude
     private String login;
 
     @Column(name = "password")
+    @EqualsAndHashCode.Exclude
     private String password;
 
     @Column(name = "first_name")
+    @EqualsAndHashCode.Exclude
     private String firstName;
 
     @Column(name = "last_name")
+    @EqualsAndHashCode.Exclude
     private String lastName;
 
     public User(String login, String password, String firstName, String lastName) {
