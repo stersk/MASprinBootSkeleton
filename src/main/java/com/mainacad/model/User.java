@@ -33,4 +33,11 @@ public class User implements Serializable {
 
     @Column(name = "last_name")
     private String lastName;
+
+    public User(String login, String password, String firstName, String lastName) {
+        this.login = login;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
 }
