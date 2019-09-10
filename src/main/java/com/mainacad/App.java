@@ -14,7 +14,7 @@ public class App
 
         // Run with profiles
         SpringApplication context = new SpringApplication(App.class);
-        context.setAdditionalProfiles("dev");
+        context.setAdditionalProfiles("test");
         context.run(args);
 
     }
