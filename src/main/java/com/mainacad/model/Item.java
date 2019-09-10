@@ -1,9 +1,6 @@
 package com.mainacad.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
@@ -12,6 +9,7 @@ import javax.persistence.*;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode
 @Entity
 @Table(name = "items")
 public class Item {
@@ -22,11 +20,20 @@ public class Item {
     private Integer id;
 
     @Column(name = "item_code")
+    @EqualsAndHashCode.Exclude
     private String itemCode;
 
     @Column(name = "item_name")
+    @EqualsAndHashCode.Exclude
     private String name;
 
     @Column(name = "price")
+    @EqualsAndHashCode.Exclude
     private Integer price;
+
+    public Item(String itemCode, String name, Integer price) {
+        this.itemCode = itemCode;
+        this.name = name;
+        this.price = price;
+    }
 }
