@@ -1,9 +1,6 @@
 package com.mainacad.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -11,6 +8,7 @@ import javax.persistence.*;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode
 
 @Entity
 @Table(name = "carts")
@@ -21,11 +19,20 @@ public class Cart {
     private Integer id;
 
     @Column(name = "creation_time")
+    @EqualsAndHashCode.Exclude
     private Long creationTime;
 
     @Column(name = "closed")
+    @EqualsAndHashCode.Exclude
     private Boolean closed;
 
     @ManyToOne(targetEntity = User.class)
+    @EqualsAndHashCode.Exclude
     private User user;
+
+    public Cart(Long creationTime, Boolean closed, User user) {
+        this.creationTime = creationTime;
+        this.closed = closed;
+        this.user = user;
+    }
 }

@@ -1,9 +1,6 @@
 package com.mainacad.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -11,11 +8,9 @@ import javax.persistence.*;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-
 @Entity
 @Table(name = "orders")
 public class Order {
-
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,4 +24,10 @@ public class Order {
 
     @ManyToOne(targetEntity = Cart.class)
     private Cart cart;
+
+    public Order(Item item, Integer amount, Cart cart) {
+        this.item = item;
+        this.amount = amount;
+        this.cart = cart;
+    }
 }
