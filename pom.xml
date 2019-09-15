@@ -19,7 +19,7 @@
     <junit.version>5.4.2</junit.version>
     <javax.version>1</javax.version>
     <hibernate.version>5.4.4.Final</hibernate.version>
-    <jackson.version>2.9.4</jackson.version>
+    <jackson.version>2.9.9</jackson.version>
     <jaxb.version>2.2.11</jaxb.version>
     <h2.version>1.4.199</h2.version>
     <postgres.version>42.2.5</postgres.version>
@@ -146,6 +146,19 @@
       <artifactId>jaxb-impl</artifactId>
       <version>${jaxb.version}</version>
     </dependency>
+
+    <!--    JSON-->
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-core</artifactId>
+      <version>${jackson.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>${jackson.version}</version>
+    </dependency>
+
   </dependencies>
 
   <build>

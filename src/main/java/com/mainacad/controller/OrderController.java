@@ -41,7 +41,7 @@ public class OrderController {
   }
 
   @GetMapping(path="/get-orders-by-card/{id}")
-  public ResponseEntity<Cart> getOrdersByOrderId(@PathVariable Integer id) {
+  public ResponseEntity<Cart> getOrdersByCartId(@PathVariable Integer id) {
     Cart cart = cartService.findById(id);
     if (cart != null){
       return new ResponseEntity(orderService.getOrdersByCart(cart), HttpStatus.OK);
