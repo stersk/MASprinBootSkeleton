@@ -15,50 +15,49 @@ public class OrderService {
     @Autowired
     OrderDAO orderDAO;
 
-   /* public static Order createOrderByItemAndUser(Item item, Integer amount, User user){
+    @Autowired
+    CartService cartService;
+
+    public Order createOrderByItemAndUser(Item item, Integer amount, User user){
         Order order = new Order();
-        order.setItemId(item.getId());
+        order.setItem(item);
         order.setAmount(amount);
         // get or create open cart
-        Cart cart = CartService.findOpenCartByUser(user.getId());
+        Cart cart = cartService.findOpenCartByUser(user);
         if (cart == null) {
-            cart = CartService.createCartForUser(user.getId());
+            cart = cartService.createCartForUser(user);
         }
-        order.setCartId(cart.getId());
-        return OrderDAO.create(order);
+        order.setCart(cart);
+        return orderDAO.save(order);
     }
 
-    public static Order addItemToOrder(Item item, User user){
-        Order existingOrder = CartService.getOrdersFromOpenCartByUser(user.getId()).stream().filter(order -> order.getItemId().equals(item.getId())).findAny().orElse(null);
+    public Order addItemToOrder(Item item, User user){
+        Order existingOrder = cartService.getOrdersFromOpenCartByUser(user).stream().filter(order -> order.getItem().equals(item)).findAny().orElse(null);
         if (existingOrder == null) {
             existingOrder = createOrderByItemAndUser(item, 1, user);
         } else {
             existingOrder.setAmount(existingOrder.getAmount() + 1);
-            OrderDAO.update(existingOrder);
+            orderDAO.update(existingOrder);
         }
 
         return existingOrder;
-    }*/
+    }
 
     public List<Order> getOrdersByCart(Cart cart){
         return orderDAO.findByCart(cart);
     }
 
-    /*public static Order findById(Integer id) {
-        return OrderDAO.findById(id);
+    public Order findById(Integer id) {
+        return orderDAO.findById(id);
     }
-
-    public static List<Order> findClosedOrdersByUserAndPeriod(User user, Long from, Long to){
-        return OrderDAO.findClosedOrdersByUserIdAndPeriod(user.getId(), from, to);
-    }*/
 
     public void deleteOrder(Order order) {
         orderDAO.delete(order);
     }
 
-/*    public static Order updateItemAmountInOrder(Integer id, Integer amount) {
-        Order order = OrderDAO.findById(id);
+    public Order updateItemAmountInOrder(Order order, Integer amount) {
         order.setAmount(amount);
-        return OrderDAO.update(order);
-    }*/
+
+        return orderDAO.update(order);
+    }
 }
