@@ -1,17 +1,18 @@
 package com.mainacad.controller;
 
 import com.mainacad.App;
+
 import com.mainacad.model.Cart;
 import com.mainacad.model.Item;
 import com.mainacad.model.Order;
 import com.mainacad.model.User;
 import com.mainacad.service.CartService;
+import com.mainacad.service.ItemService;
 import com.mainacad.service.OrderService;
 import com.mainacad.service.UserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.mockito.internal.matchers.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -30,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.doNothing;
 
 @SpringJUnitConfig(App.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -46,6 +48,9 @@ class OrderControllerTest {
 
   @MockBean
   UserService userService;
+
+  @MockBean
+  ItemService itemService;
 
   @Test
   void testGetById() throws URISyntaxException {
@@ -137,18 +142,117 @@ class OrderControllerTest {
   }
 
   @Test
-  void testAddItemToOrder() {
+  void testAddItemToOrder() throws URISyntaxException {
+    Item item = new Item("test_item", "Test item", 20000);
+    User user = new User("login", "password", "surName", "name");
+    Order order = new Order(item, 1, new Cart());
+
+    user.setId(1);
+    item.setId(1);
+    order.setId(1);
+
+    Mockito.when(orderService.addItemToOrder(item, user)).thenReturn(order);
+    Mockito.when(userService.findById(1)).thenReturn(user);
+    Mockito.when(itemService.findById(1)).thenReturn(item);
+
+    RequestEntity<Void> request = new RequestEntity<>(HttpMethod.PUT, new URI("/order/add-item-to-order/"+ item.getId().toString() + "/" + user.getId().toString()));
+    ResponseEntity<Order> response = testRestTemplate.exchange(request, Order.class);
+    Assertions.assertEquals(response.getStatusCode(), HttpStatus.OK);
+
+    Mockito.verify(orderService, Mockito.times(1)).addItemToOrder(item, user);
+    Mockito.verify(userService, Mockito.times(1)).findById(1);
+    Mockito.verify(itemService, Mockito.times(1)).findById(1);
+
+    Assertions.assertEquals(order, response.getBody());
   }
 
   @Test
-  void testUpdateOrderAmount() {
+  void testUpdateOrderAmount() throws URISyntaxException {
+    Order order = new Order(new Item(), 1, new Cart());
+    order.setId(1);
+
+    Mockito.when(orderService.findById(1)).thenReturn(order);
+    Mockito.when(orderService.updateItemAmountInOrder(order, 2)).thenReturn(order);
+
+    RequestEntity<Void> request = new RequestEntity<>(HttpMethod.PUT, new URI("/order/update-order-amount/"+ order.getId().toString() + "/2"));
+    ResponseEntity<Order> response = testRestTemplate.exchange(request, Order.class);
+    Assertions.assertEquals(response.getStatusCode(), HttpStatus.OK);
+
+    Mockito.verify(orderService, Mockito.times(1)).findById(1);
+    Mockito.verify(orderService, Mockito.times(1)).updateItemAmountInOrder(order, 2);
+    Mockito.verify(orderService, Mockito.times(0)).deleteOrder(order);
+
+    Assertions.assertEquals(order, response.getBody());
+
+    Mockito.reset(orderService);
+    Mockito.when(orderService.findById(1)).thenReturn(order);
+    Mockito.when(orderService.updateItemAmountInOrder(Mockito.any(Order.class), Mockito.anyInt())).thenReturn(order);
+
+    request = new RequestEntity<>(HttpMethod.PUT, new URI("/order/update-order-amount/"+ order.getId().toString() + "/0"));
+    response = testRestTemplate.exchange(request, Order.class);
+
+    Assertions.assertEquals(response.getStatusCode(), HttpStatus.OK);
+
+    Mockito.verify(orderService, Mockito.times(0)).updateItemAmountInOrder(order, 2);
+    Mockito.verify(orderService, Mockito.times(1)).findById(1);
+    Mockito.verify(orderService, Mockito.times(1)).deleteOrder(order);
+
+    Assertions.assertEquals(null, response.getBody());
   }
 
   @Test
-  void testRemoveOneFromOrder() {
+  void testRemoveOneFromOrder() throws URISyntaxException {
+    Order order = new Order(new Item(), 2, new Cart());
+    order.setId(1);
+
+    Mockito.when(orderService.findById(1)).thenReturn(order);
+    Mockito.when(orderService.updateItemAmountInOrder(order, 1)).thenReturn(order);
+
+    RequestEntity<Void> request = new RequestEntity<>(HttpMethod.PUT, new URI("/order/remove-one-from-order/"+ order.getId().toString()));
+    ResponseEntity<Integer> response = testRestTemplate.exchange(request, Integer.class);
+    Assertions.assertEquals(response.getStatusCode(), HttpStatus.OK);
+
+    Mockito.verify(orderService, Mockito.times(1)).findById(1);
+    Mockito.verify(orderService, Mockito.times(1)).updateItemAmountInOrder(order, 1);
+    Mockito.verify(orderService, Mockito.times(0)).deleteOrder(order);
+
+    Assertions.assertEquals(1, response.getBody());
+
+    Mockito.reset(orderService);
+    Mockito.when(orderService.findById(1)).thenReturn(order);
+
+    request = new RequestEntity<>(HttpMethod.PUT, new URI("/order/remove-one-from-order/"+ order.getId().toString()));
+    response = testRestTemplate.exchange(request, Integer.class);
+
+    Assertions.assertEquals(response.getStatusCode(), HttpStatus.OK);
+
+    Mockito.verify(orderService, Mockito.times(0)).updateItemAmountInOrder(order, 1);
+    Mockito.verify(orderService, Mockito.times(1)).findById(1);
+    Mockito.verify(orderService, Mockito.times(1)).deleteOrder(order);
+
+    Assertions.assertEquals(0, response.getBody());
   }
 
   @Test
-  void testDelete() {
+  void testDelete() throws URISyntaxException {
+    Order order = new Order();
+    order.setId(1);
+
+    doNothing().when(orderService).deleteOrder(order);
+    Mockito.when(orderService.findById(1)).thenReturn(order);
+    Mockito.when(orderService.findById(2)).thenReturn(null);
+
+    RequestEntity<User> request = new RequestEntity<>(HttpMethod.DELETE, new URI("/order/1"));
+    ResponseEntity<Void> response = testRestTemplate.exchange(request, Void.class);
+    Assertions.assertEquals(response.getStatusCode(), HttpStatus.OK);
+
+    Mockito.verify(orderService, Mockito.times(1)).deleteOrder(order);
+    Mockito.verify(orderService, Mockito.times(1)).findById(1);
+
+    request = new RequestEntity<>(HttpMethod.DELETE, new URI("/order/2"));
+    response = testRestTemplate.exchange(request, Void.class);
+    Assertions.assertEquals(response.getStatusCode(), HttpStatus.BAD_REQUEST);
+
+    Mockito.verify(orderService, Mockito.times(1)).findById(2);
   }
 }
