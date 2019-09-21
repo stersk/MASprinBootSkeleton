@@ -50,7 +50,12 @@ public class OrderDAO {
     SessionFactory sessionFactory = connectionFactory.getSessionFactory();
     Session session = sessionFactory.openSession();
     session.getTransaction().begin();
-    session.delete(order);
+
+    Order checkedOrder = findById(order.getId());
+    if (checkedOrder != null) {
+      session.delete(order);
+    }
+
     session.getTransaction().commit();
     session.close();
   }

@@ -85,7 +85,12 @@ public class ItemDAO {
     SessionFactory sessionFactory = connectionFactory.getSessionFactory();
     Session session = sessionFactory.openSession();
     session.getTransaction().begin();
-    session.delete(item);
+
+    Item checkedItem = findById(item.getId());
+    if (checkedItem != null) {
+      session.delete(item);
+    }
+
     session.getTransaction().commit();
     session.close();
   }

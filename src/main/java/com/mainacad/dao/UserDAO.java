@@ -85,7 +85,12 @@ public class UserDAO {
     SessionFactory sessionFactory = connectionFactory.getSessionFactory();
     Session session = sessionFactory.openSession();
     session.getTransaction().begin();
-    session.delete(user);
+
+    User checkedUser = findById(user.getId());
+    if (checkedUser != null) {
+      session.delete(user);
+    };
+
     session.getTransaction().commit();
     session.close();
   }

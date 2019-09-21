@@ -131,7 +131,12 @@ public class CartDAO {
     SessionFactory sessionFactory = connectionFactory.getSessionFactory();
     Session session = sessionFactory.openSession();
     session.getTransaction().begin();
-    session.delete(cart);
+
+    Cart checkedCart = findById(cart.getId());
+    if (checkedCart != null) {
+      session.delete(checkedCart);
+    }
+
     session.getTransaction().commit();
     session.close();
   }
