@@ -21,15 +21,15 @@ public class ItemService {
   }
 
   public Item update(Item item){
-    return itemDAO.update(item);
+    return itemDAO.saveAndFlush(item);
   }
 
   public Item findById(Integer id){
-    return itemDAO.findById(id);
+    return itemDAO.findById(id).orElse(null);
   }
 
   public List<Item> findByItemCode(String itemCode){
-    return itemDAO.findByItemCode(itemCode);
+    return itemDAO.findItemsByItemCode(itemCode);
   }
 
   public List<Item> findAll(){

@@ -37,18 +37,18 @@ public class OrderService {
             existingOrder = createOrderByItemAndUser(item, 1, user);
         } else {
             existingOrder.setAmount(existingOrder.getAmount() + 1);
-            orderDAO.update(existingOrder);
+            orderDAO.saveAndFlush(existingOrder);
         }
 
         return existingOrder;
     }
 
     public List<Order> getOrdersByCart(Cart cart){
-        return orderDAO.findByCart(cart);
+        return orderDAO.findOrdersByCart(cart);
     }
 
     public Order findById(Integer id) {
-        return orderDAO.findById(id);
+        return orderDAO.findById(id).orElse(null);
     }
 
     public void deleteOrder(Order order) {
@@ -58,6 +58,6 @@ public class OrderService {
     public Order updateItemAmountInOrder(Order order, Integer amount) {
         order.setAmount(amount);
 
-        return orderDAO.update(order);
+        return orderDAO.saveAndFlush(order);
     }
 }

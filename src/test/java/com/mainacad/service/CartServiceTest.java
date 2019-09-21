@@ -71,7 +71,12 @@ class CartServiceTest {
 
   @AfterEach
   void tearDown() {
-    orders.forEach(order -> orderDAO.delete(order));
+    orders.forEach(order -> {
+      Order orderToDelete = orderDAO.findById(order.getId()).orElse(null);
+      if (orderToDelete != null) {
+        orderDAO.delete(order);
+      }
+    });
     orders.clear();
 
     carts.forEach(cart -> cartDAO.delete(cart));

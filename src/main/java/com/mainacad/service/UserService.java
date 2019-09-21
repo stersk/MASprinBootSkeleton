@@ -22,14 +22,14 @@ public class UserService {
     }
 
     public User findById(Integer id){
-        return userDAO.findById(id);
+        return userDAO.findById(id).orElse(null);
     }
 
 
     public User findByLoginAndPassword(String login, String password){
         AtomicReference<User> user = new AtomicReference<>();
 
-        List<User> users = userDAO.findByLogin(login);
+        List<User> users = userDAO.findAllByLogin(login);
         users.forEach(u -> {
             if (u.getPassword().equals(password)) {
                 user.set(u);
@@ -40,11 +40,11 @@ public class UserService {
     }
 
     public User update(User user) {
-      return userDAO.update(user);
+      return userDAO.saveAndFlush(user);
     }
 
     public User findByLogin(String login){
-        List<User> users = userDAO.findByLogin(login);
+        List<User> users = userDAO.findAllByLogin(login);
         if (!users.isEmpty()) {
             return users.get(0);
         }
@@ -56,6 +56,9 @@ public class UserService {
     }
 
     public void delete(Integer id) {
-        userDAO.delete(userDAO.findById(id));
+        User user = userDAO.findById(id).orElse(null);
+        if (user != null){
+            userDAO.delete(user);
+        }
     }
 }

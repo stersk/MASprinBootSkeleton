@@ -36,24 +36,24 @@ public class CartService {
   }
 
   public Cart findById(Integer id) {
-    return cartDAO.findById(id);
+    return cartDAO.findById(id).orElse(null);
   }
 
   public Cart findOpenCartByUser(User user){
-    return cartDAO.findOpenCartByUser(user);
+    return cartDAO.findCartByClosedAndUser(false, user).orElse(null);
   }
 
   public Cart close(Cart cart){
     cart.setClosed(true);
-    return cartDAO.update(cart);
+    return cartDAO.saveAndFlush(cart);
   }
 
   public Integer getCartSum(Cart cart){
-    return cartDAO.getCartSum(cart);
+    return cartDAO.getCartSum(cart.getId());
   }
 
   public void deleteCart(Cart cart) {
-    List<Order> cartOrders = orderDAO.findByCart(cart);
+    List<Order> cartOrders = orderDAO.findOrdersByCart(cart);
 
     cartOrders.stream().forEach(order -> orderDAO.delete(order));
     cartDAO.delete(cart);
@@ -62,9 +62,9 @@ public class CartService {
   public List<Order> getOrdersFromOpenCartByUser(User user) {
     List<Order> orders = new ArrayList<>();
 
-    Cart openCart = cartDAO.findOpenCartByUser(user);
+    Cart openCart = findOpenCartByUser(user);
     if (openCart != null) {
-      orders = orderDAO.findByCart(openCart);
+      orders = orderDAO.findOrdersByCart(openCart);
     }
 
     return orders;
