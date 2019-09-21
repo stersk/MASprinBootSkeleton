@@ -89,7 +89,7 @@ public class UserDAO {
     User checkedUser = findById(user.getId());
     if (checkedUser != null) {
       session.delete(user);
-    };
+    }
 
     session.getTransaction().commit();
     session.close();
