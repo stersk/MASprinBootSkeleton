@@ -1,6 +1,7 @@
 package com.mainacad.controller;
 
 import com.mainacad.App;
+import com.mainacad.entity.Item;
 import com.mainacad.entity.User;
 import com.mainacad.service.UserService;
 import org.junit.jupiter.api.Assertions;
@@ -99,8 +100,10 @@ public class UserControllerTest {
     List<User> users = new ArrayList<>();
     Mockito.when(userService.findAll()).thenReturn(users);
 
+    ParameterizedTypeReference<List<Item>> typeRef = new ParameterizedTypeReference<>() {};
+
     RequestEntity<User> request = new RequestEntity<>(HttpMethod.GET, new URI("/user/get-all"));
-    ResponseEntity<List> response = testRestTemplate.exchange(request, ParameterizedTypeReference.forType(List.class));
+    ResponseEntity<List<Item>> response = testRestTemplate.exchange(request, typeRef);
 
     Assertions.assertEquals(response.getStatusCode(), HttpStatus.OK);
     Mockito.verify(userService, Mockito.times(1)).findAll();

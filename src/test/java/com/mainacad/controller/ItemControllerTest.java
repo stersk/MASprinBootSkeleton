@@ -97,8 +97,10 @@ public class ItemControllerTest {
     List<Item> list = new ArrayList<>();
     Mockito.when(itemService.findByItemCode(Mockito.any(String.class))).thenReturn(list);
 
+    ParameterizedTypeReference<List<Item>> typeRef = new ParameterizedTypeReference<>() {};
+
     RequestEntity<Item> request = new RequestEntity<>(HttpMethod.GET, new URI("/item/get-by-code/456"));
-    ResponseEntity<List> response = testRestTemplate.exchange(request, ParameterizedTypeReference.forType(List.class));
+    ResponseEntity<List<Item>> response = testRestTemplate.exchange(request, typeRef);
 
     Assertions.assertEquals(response.getStatusCode(), HttpStatus.OK);
     Mockito.verify(itemService, Mockito.times(1)).findByItemCode(Mockito.any(String.class));
@@ -111,8 +113,10 @@ public class ItemControllerTest {
     List<Item> list = new ArrayList<>();
     Mockito.when(itemService.findAll()).thenReturn(list);
 
+    ParameterizedTypeReference<List<Item>> typeRef = new ParameterizedTypeReference<>() {};
+
     RequestEntity<Item> request = new RequestEntity<>(HttpMethod.GET, new URI("/item/get-all"));
-    ResponseEntity<List> response = testRestTemplate.exchange(request, ParameterizedTypeReference.forType(list.getClass()));
+    ResponseEntity<List<Item>> response = testRestTemplate.exchange(request, typeRef);
 
     Assertions.assertEquals(response.getStatusCode(), HttpStatus.OK);
     Mockito.verify(itemService, Mockito.times(1)).findAll();

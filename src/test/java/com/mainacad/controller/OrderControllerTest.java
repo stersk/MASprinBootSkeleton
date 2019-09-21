@@ -90,8 +90,7 @@ class OrderControllerTest {
     ParameterizedTypeReference<List<Order>> listTypeRef = new ParameterizedTypeReference<>() {};
 
     RequestEntity<Void> request = new RequestEntity<>(HttpMethod.GET, new URI("/order/get-orders-by-card/" + cart.getId().toString()));
-    //TODO Fix from ParameterizedTypeReference.forType(ordersList.getClass()) to ParameterizedTypeReference<List<Order>> typeRef = new ParameterizedTypeReference<>() {};
-    // for correct deserialization of list elements everywhere in controllers test
+
     ResponseEntity<List<Order>> response = testRestTemplate.exchange(request, listTypeRef);
     Assertions.assertEquals(response.getStatusCode(), HttpStatus.OK);
 
