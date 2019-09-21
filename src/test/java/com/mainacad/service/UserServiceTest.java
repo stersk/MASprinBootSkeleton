@@ -2,7 +2,7 @@ package com.mainacad.service;
 
 import com.mainacad.App;
 import com.mainacad.dao.UserDAO;
-import com.mainacad.model.User;
+import com.mainacad.entity.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

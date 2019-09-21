@@ -1,7 +1,6 @@
-package com.mainacad.model;
+package com.mainacad.entity;
 
 import lombok.*;
-import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 

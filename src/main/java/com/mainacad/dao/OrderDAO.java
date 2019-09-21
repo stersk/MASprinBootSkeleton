@@ -1,10 +1,10 @@
 package com.mainacad.dao;
 
 import com.mainacad.dao.connection.ConnectionFactory;
-import com.mainacad.model.Cart;
-import com.mainacad.model.Item;
-import com.mainacad.model.User;
-import com.mainacad.model.Order;
+import com.mainacad.entity.Cart;
+import com.mainacad.entity.Item;
+import com.mainacad.entity.User;
+import com.mainacad.entity.Order;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;

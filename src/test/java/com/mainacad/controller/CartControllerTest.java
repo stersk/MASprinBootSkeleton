@@ -1,10 +1,10 @@
 package com.mainacad.controller;
 
 import com.mainacad.App;
-import com.mainacad.model.Cart;
-import com.mainacad.model.Item;
-import com.mainacad.model.Order;
-import com.mainacad.model.User;
+import com.mainacad.entity.Cart;
+import com.mainacad.entity.Item;
+import com.mainacad.entity.Order;
+import com.mainacad.entity.User;
 import com.mainacad.service.CartService;
 import com.mainacad.service.OrderService;
 import org.junit.jupiter.api.Assertions;

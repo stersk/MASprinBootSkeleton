@@ -1,9 +1,7 @@
 package com.mainacad.dao;
 
 import com.mainacad.dao.connection.ConnectionFactory;
-import com.mainacad.model.User;
-import lombok.Getter;
-import lombok.Setter;
+import com.mainacad.entity.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.NativeQuery;

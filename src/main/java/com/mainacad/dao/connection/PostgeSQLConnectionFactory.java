@@ -7,10 +7,10 @@ import org.hibernate.service.ServiceRegistry;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import com.mainacad.model.Cart;
-import com.mainacad.model.Item;
-import com.mainacad.model.Order;
-import com.mainacad.model.User;
+import com.mainacad.entity.Cart;
+import com.mainacad.entity.Item;
+import com.mainacad.entity.Order;
+import com.mainacad.entity.User;
 
 import java.util.Properties;
 

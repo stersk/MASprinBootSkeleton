@@ -1,6 +1,6 @@
 package com.mainacad.controller;
 
-import com.mainacad.model.Item;
+import com.mainacad.entity.Item;
 import com.mainacad.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

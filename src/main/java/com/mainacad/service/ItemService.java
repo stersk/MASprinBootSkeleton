@@ -1,7 +1,7 @@
 package com.mainacad.service;
 
 import com.mainacad.dao.ItemDAO;
-import com.mainacad.model.Item;
+import com.mainacad.entity.Item;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;

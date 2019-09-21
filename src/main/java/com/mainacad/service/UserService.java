@@ -1,7 +1,7 @@
 package com.mainacad.service;
 
 import com.mainacad.dao.UserDAO;
-import com.mainacad.model.User;
+import com.mainacad.entity.User;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;

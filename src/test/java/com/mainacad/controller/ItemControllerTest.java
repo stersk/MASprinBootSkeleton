@@ -1,8 +1,8 @@
 package com.mainacad.controller;
 
 import com.mainacad.App;
-import com.mainacad.model.Item;
-import com.mainacad.model.User;
+import com.mainacad.entity.Item;
+import com.mainacad.entity.User;
 import com.mainacad.service.ItemService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

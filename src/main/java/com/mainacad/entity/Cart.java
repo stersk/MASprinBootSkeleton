@@ -1,4 +1,4 @@
-package com.mainacad.model;
+package com.mainacad.entity;
 
 import lombok.*;
 
