@@ -17,14 +17,19 @@ public class UserService {
     @Autowired
     private UserDAO userDAO;
 
+    // TODO Add to test
     public User save(User user){
-        return userDAO.save(user);
+        List<User> users = userDAO.findAllByLogin(user.getLogin());
+        if (users.isEmpty()) {
+            return userDAO.save(user);
+        }
+
+        return null;
     }
 
     public User findById(Integer id){
         return userDAO.findById(id).orElse(null);
     }
-
 
     public User findByLoginAndPassword(String login, String password){
         AtomicReference<User> user = new AtomicReference<>();
