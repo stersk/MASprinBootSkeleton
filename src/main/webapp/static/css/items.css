@@ -1,0 +1,10 @@
+.hello-user-text {
+    padding-right: 15px;
+}
+main.container-fluid {
+    padding-top: 70px;
+}
+.card > img {
+    object-fit: contain;
+    padding: 5px;
+}

@@ -1,0 +1,15 @@
+main.container-fluid {
+    padding-top: 80px;
+}
+table {
+    margin: auto;
+    margin-top: 15px;
+}
+td.stat-heading {
+    font-size: large;
+    font-weight: 600;
+}
+td.stat-value {
+    font-size: larger;
+    padding-left: 150px;
+}

@@ -1,0 +1,9 @@
+main.container-fluid {
+    padding-top: 70px;
+}
+th.row-number {
+    width: 50px;
+}
+th.row-buttons-panel {
+     width: 130px;
+}
