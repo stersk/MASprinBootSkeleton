@@ -1,12 +1,10 @@
 package com.mainacad.controller;
 
-import com.mainacad.dao.UserDAO;
 import com.mainacad.entity.User;
 import com.mainacad.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.MultiValueMap;
