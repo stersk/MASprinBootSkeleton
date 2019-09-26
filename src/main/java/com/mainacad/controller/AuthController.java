@@ -2,6 +2,7 @@ package com.mainacad.controller;
 
 import com.mainacad.entity.User;
 import com.mainacad.service.UserService;
+import com.sun.xml.bind.v2.TODO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Controller;
@@ -62,6 +63,7 @@ public class AuthController {
       }
     }
 
+    // TODO Refactor from session attribute to flashAttribute or pass parameter via URL
     model.addAttribute("wrongAuth", wrongAuth);
     return respond;
   }

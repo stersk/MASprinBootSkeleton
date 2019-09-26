@@ -43,7 +43,7 @@ function checkPasswordLoginAvailability(inputElement){
     timerId = setTimeout(function () {
         $.ajax({
             type: 'get',
-            url: '../user',
+            url: '/registration/userExist',
             dataType : "json",
             data: {login: inputElement.value,
                    action: 'userExist'},

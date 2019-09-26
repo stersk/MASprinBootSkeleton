@@ -32,7 +32,7 @@
                 <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Input password" required>
                 <button class="btn btn-lg btn-dark btn-block" type="submit">Log in</button>
                 <p>
-                    <a href="<c:url value = '/jsp/registration.jsp'/>">Register</a>
+                    <a href="<c:url value = '/register'/>">Register</a>
                 </p>
                 <p class="mt-5 mb-3 text-muted">&copy; 2019 Sters</p>
             </form>
@@ -49,6 +49,22 @@
                     },{
                         // settings
                         type: 'danger'
+                    });
+                });
+            </script>
+        </c:if>
+    </c:if>
+
+    <c:if test="${not empty param.userCreated}">
+        <c:if test="${param.userCreated}">
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    $.notify({
+                        // options
+                        message: 'User created successfully. You can login now.'
+                    },{
+                        // settings
+                        type: 'success'
                     });
                 });
             </script>
