@@ -35,7 +35,7 @@ public class ItemController {
 
   @GetMapping("/items")
   @Profile("dev")
-  public String getLandingPage(Model model, @ModelAttribute("items") List<Item> items) {
+  public String getItemsPage(Model model, @ModelAttribute("items") List<Item> items) {
     items = itemService.findAll();
     model.addAttribute("items", items);
 

@@ -22,7 +22,7 @@ public class RegistrationController {
 
   @GetMapping("/register")
   @Profile("dev")
-  public String getLandingPage(Model model) {
+  public String getRegistrationPage(Model model) {
     return "registration";
   }
 
