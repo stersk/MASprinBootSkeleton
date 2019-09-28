@@ -11,12 +11,12 @@ $( document ).ready(function() {
 });
 
 function removeFromCart(event) {
+    var orderId = $(event.target).closest('tr').attr('data-order-id');
     $.ajax({
         type: 'post',
-        url: 'cart',
+        url: 'order/removeFromOpenCart',
         dataType : "json",
-        data: {orderId: $(event.target).closest('tr').attr('data-order-id'),
-               action: 'removeFromOpenCart'},
+        data: {orderId: orderId},
         success: function(data, textStatus) {
             $.notify({
                 // options
@@ -30,13 +30,14 @@ function removeFromCart(event) {
                 }
             });
 
+            $(event.target).closest('tr').remove();
             refillRowNumbersAndConfirmationVisibility();
             updateTotalCartSumElement(data.cartSum);
         },
         error: function (data, textStatus) {
             $.notify({
                 // options
-                message: 'Item &quot;' + $('.item-name', $(event.target).closest('tr')).first().text() + '&quot; not removed to you cart'
+                message: 'Item &quot;' + $('.item-name', $(event.target).closest('tr')).first().text() + '&quot; not removed from you cart'
             },{
                 // settings
                 type: 'danger',

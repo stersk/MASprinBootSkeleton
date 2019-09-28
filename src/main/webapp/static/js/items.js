@@ -8,7 +8,7 @@ $( document ).ready(function() {
 function addToCart(event) {
     $.ajax({
         type: 'post',
-        url: 'items/addItemToCart',
+        url: 'order/addItemToCart',
         dataType : "json",
         data: {itemId: $(event.target).attr('data-id')},
         success: function(data, textStatus) {
