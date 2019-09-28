@@ -14,24 +14,24 @@ import javax.servlet.http.HttpSession;
 import java.util.Map;
 
 @Controller
-@SessionAttributes("wrongAuth")
+@SessionAttributes({"wrongAuth", "user"})
 public class AuthController {
   @Autowired
   UserService userService;
 
   @GetMapping("/")
   @Profile("dev")
-  public String getLandingPage(Model model) {
+  public ModelAndView getLandingPage(Model model) {
     if (!model.containsAttribute("wrongAuth")) {
       model.addAttribute("wrongAuth", false);
     }
 
-    return "index";
+    return new ModelAndView("redirect:/", (Map<String, ?>) model);
   }
 
   @GetMapping("/logout")
   @Profile("dev")
-  public String getLogout(Model model) {
+  public String getLogout(Model model, @ModelAttribute("user") User user) {
     model.addAttribute("user", null);
 
     return "index";
@@ -39,7 +39,8 @@ public class AuthController {
 
   @PostMapping(path = "/auth")
   @Profile("dev")
-  public ModelAndView authUser(Model model, HttpSession session, @RequestBody MultiValueMap<String, String> queryData, @ModelAttribute("wrongAuth") Object wrongAuth) {
+  public ModelAndView authUser(Model model, HttpSession session, @RequestBody MultiValueMap<String, String> queryData) {
+    boolean wrongAuth = false;
     ModelAndView respond = new ModelAndView("/");
 
     String action = queryData.getFirst("action");

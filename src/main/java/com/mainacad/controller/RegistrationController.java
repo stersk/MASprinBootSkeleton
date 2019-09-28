@@ -26,7 +26,7 @@ public class RegistrationController {
     return "registration";
   }
 
-  @GetMapping(value = "/registration/userExist", produces = "application/json" )
+  @GetMapping(value = "/registration/userExist", produces = "application/json")
   @ResponseBody
   @Profile("dev")
   public Map<String, Boolean> checkUserExistByLogin(Model model, @RequestParam(name = "login") String userLogin) {
