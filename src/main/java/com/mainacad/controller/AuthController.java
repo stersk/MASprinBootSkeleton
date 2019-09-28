@@ -25,7 +25,7 @@ public class AuthController {
     if (!model.containsAttribute("wrongAuth")) {
       model.addAttribute("wrongAuth", false);
     } else if (model.containsAttribute("user") && model.asMap().get("user") != null) {
-      return new ModelAndView("items", model.asMap());
+      return new ModelAndView("redirect:/items", model.asMap());
     }
 
     return new ModelAndView("index", model.asMap());
