@@ -24,9 +24,11 @@ public class AuthController {
   public ModelAndView getLandingPage(Model model) {
     if (!model.containsAttribute("wrongAuth")) {
       model.addAttribute("wrongAuth", false);
+    } else if (model.containsAttribute("user") && model.asMap().get("user") != null) {
+      return new ModelAndView("items", model.asMap());
     }
 
-    return new ModelAndView("redirect:/", (Map<String, ?>) model);
+    return new ModelAndView("index", model.asMap());
   }
 
   @GetMapping("/logout")
@@ -55,11 +57,11 @@ public class AuthController {
         model.addAttribute("user", user);
         session.removeAttribute("wrongAuth");
 
-        respond = new ModelAndView("redirect:/items", (Map<String, ?>) model);
+        respond = new ModelAndView("redirect:/items", model.asMap());
       } else {
         wrongAuth = true;
 
-        respond = new ModelAndView("redirect:/", (Map<String, ?>) model);
+        respond = new ModelAndView("redirect:/", model.asMap());
       }
     }
 
