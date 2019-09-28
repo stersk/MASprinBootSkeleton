@@ -96,11 +96,10 @@ function onItemAmountCommit(event) {
 
     $.ajax({
         type: 'post',
-        url: 'cart',
+        url: 'order/updateItemAmountInOrder',
         dataType : "json",
         data: {orderId: rowElement.attr('data-order-id'),
-               amount: $('#item-amount').val(),
-               action: 'updateItemAmountInOrder'},
+               amount: $('#item-amount').val()},
         success: function(data, textStatus) {
             var alertText = '';
 

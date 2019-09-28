@@ -69,6 +69,31 @@ public class OrderController {
     return map;
   }
 
+  @PostMapping(value = "/order/updateItemAmountInOrder", produces = "application/json")
+  @ResponseBody
+  @Profile("dev")
+  public Map<String, Object> updateItemAmountInOrder(Model model, @RequestBody MultiValueMap<String, String> queryData) {
+    Integer orderId = Integer.parseInt(queryData.getFirst("orderId"));
+    Integer amount = Integer.parseInt(queryData.getFirst("amount"));
+    Integer newCartSum = 0;
+
+    if (amount.equals(0)) {
+      newCartSum = deleteOrderAndReturnCartSum(orderId);
+
+    } else {
+      Order updatedOrder = orderService.updateItemAmountInOrder(orderService.findById(orderId), amount);
+      if (updatedOrder != null) {
+        Cart cart = updatedOrder.getCart();
+        newCartSum = cartService.getCartSum(cart);
+      }
+    }
+
+    Map<String, Object> map = new HashMap<>();
+    map.put("cartSum", newCartSum);
+
+    return map;
+  }
+
   private Integer deleteOrderAndReturnCartSum(Integer orderId) {
     Order orderToDelete = orderService.findById(orderId);
     Cart cartToEdit = orderToDelete.getCart();
