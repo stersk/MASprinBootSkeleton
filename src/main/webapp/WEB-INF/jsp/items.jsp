@@ -23,7 +23,7 @@
 
     <c:set var="user" value="${user}" scope="session" />
     <c:set var="items" value="${items}" scope="request" />
-    <c:set var="discartCompleted" value="${discartCompleted}" scope="session" />
+    <c:set var="discardCompleted" value="${param.discardCompleted}" scope="request" />
 
     <body class="bg-light">
         <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
@@ -82,8 +82,8 @@
         </main>
     </body>
 
-    <c:if test="${not empty discartCompleted}">
-        <c:if test="${discartCompleted}">
+    <c:if test="${not empty discardCompleted}">
+        <c:if test="${discardCompleted}">
             <script type="text/javascript">
                 $(document).ready(function() {
                     $.notify({
@@ -99,7 +99,7 @@
                     });
                 });
             </script>
-            <c:remove var="discartCompleted" scope="session" />
+<%--            <c:remove var="discardCompleted" scope="session" />--%>
         </c:if>
     </c:if>
 </html>

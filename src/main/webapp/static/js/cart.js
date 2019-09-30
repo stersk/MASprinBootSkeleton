@@ -160,9 +160,9 @@ function updateTotalCartSumElement(value) {
 }
 
 function setCartConfirmOperation(event) {
-    $('#cart-operation-action').val('confirm');
+    $('#cart-action-form').attr('action', '/cart/confirm');
 }
 
 function setCartDiscardOperation(event) {
-    $('#cart-operation-action').val('discard');
+    $('#cart-action-form').attr('action','/cart/discard');
 }

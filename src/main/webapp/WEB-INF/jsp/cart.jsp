@@ -93,8 +93,7 @@
             </table>
             <hr>
             <h4 id="cart-sum" class="float-right">Total cart sum: <fmt:formatNumber value="${cartSum / 100}" currencySymbol="$" type="currency" /></h4>
-            <form class="form" action="<c:url value = '/cart'/>" method="post">
-                <input id="cart-operation-action" type="text" name="action" value="" hidden>
+            <form id="cart-action-form" class="form" action="<c:url value = '/cart'/>" method="post">
                 <div>
                     <a class="btn btn-light btn-outline-secondary mb-2" href="<c:url value = '/items'/>">Back to items list</a>
                     <c:if test="${orders.size() > 0}">
