@@ -1,7 +1,6 @@
 package com.mainacad.entity;
 
 import lombok.*;
-
 import javax.persistence.*;
 import java.io.Serializable;
 

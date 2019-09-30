@@ -1,7 +1,5 @@
 package com.mainacad.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mainacad.entity.Cart;
 import com.mainacad.entity.Item;
 import com.mainacad.entity.Order;
@@ -19,7 +17,6 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
