@@ -2,10 +2,12 @@ package com.mainacad.service;
 
 import com.mainacad.dao.ItemDAO;
 import com.mainacad.entity.Item;
+import com.mainacad.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ItemService {
@@ -17,7 +19,12 @@ public class ItemService {
   }
 
   public Item update(Item item){
-    return itemDAO.saveAndFlush(item);
+    Optional<Item> checkedItem = itemDAO.findById(item.getId());
+    if (checkedItem.isPresent()) {
+      return itemDAO.saveAndFlush(item);
+    }
+
+    return null;
   }
 
   public Item findById(Integer id){
