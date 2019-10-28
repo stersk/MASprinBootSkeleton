@@ -6,14 +6,14 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication()
 @EnableSwagger2
-public class App
+public class ApplicationRunner
 {
     public static void main( String[] args )
     {
         // SpringApplication.run(ApplicationRunner.class, args);
 
         // Run with profiles
-        SpringApplication context = new SpringApplication(App.class);
+        SpringApplication context = new SpringApplication(ApplicationRunner.class);
         context.setAdditionalProfiles("dev");
         context.run(args);
 

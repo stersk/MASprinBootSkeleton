@@ -1,6 +1,6 @@
 package com.mainacad.service;
 
-import com.mainacad.App;
+import com.mainacad.ApplicationRunner;
 import com.mainacad.dao.CartDAO;
 import com.mainacad.dao.ItemDAO;
 import com.mainacad.dao.OrderDAO;
@@ -21,7 +21,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringJUnitConfig(App.class)
+@SpringJUnitConfig(ApplicationRunner.class)
 @ActiveProfiles("test")
 class CartServiceTest {
   @Autowired

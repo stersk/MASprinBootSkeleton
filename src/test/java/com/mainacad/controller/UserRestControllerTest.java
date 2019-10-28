@@ -1,6 +1,6 @@
 package com.mainacad.controller;
 
-import com.mainacad.App;
+import com.mainacad.ApplicationRunner;
 import com.mainacad.entity.Item;
 import com.mainacad.entity.User;
 import com.mainacad.service.UserService;
@@ -26,7 +26,7 @@ import java.util.List;
 
 import static org.mockito.Mockito.doNothing;
 
-@SpringJUnitConfig(App.class)
+@SpringJUnitConfig(ApplicationRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 public class UserRestControllerTest {

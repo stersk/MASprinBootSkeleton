@@ -1,6 +1,6 @@
 package com.mainacad.service;
 
-import com.mainacad.App;
+import com.mainacad.ApplicationRunner;
 import com.mainacad.dao.UserDAO;
 import com.mainacad.entity.User;
 import org.junit.jupiter.api.AfterEach;
@@ -15,7 +15,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringJUnitConfig(App.class)
+@SpringJUnitConfig(ApplicationRunner.class)
 @ActiveProfiles("test")
 class UserServiceTest {
   private static List<User> users = new ArrayList<>();

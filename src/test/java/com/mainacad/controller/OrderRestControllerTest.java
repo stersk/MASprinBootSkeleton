@@ -1,6 +1,6 @@
 package com.mainacad.controller;
 
-import com.mainacad.App;
+import com.mainacad.ApplicationRunner;
 
 import com.mainacad.entity.Cart;
 import com.mainacad.entity.Item;
@@ -32,7 +32,7 @@ import java.util.List;
 
 import static org.mockito.Mockito.doNothing;
 
-@SpringJUnitConfig(App.class)
+@SpringJUnitConfig(ApplicationRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 class OrderRestControllerTest {
