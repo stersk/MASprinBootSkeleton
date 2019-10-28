@@ -142,4 +142,46 @@ class CartServiceTest {
     assertNotNull(checkedOrders);
     assertEquals(0, checkedOrders.size());
   }
+
+  @Test
+  void testFindById() {
+    Cart checkedCart = cartService.findById(carts.get(0).getId());
+
+    assertNotNull(checkedCart);
+    assertEquals(carts.get(0), checkedCart);
+
+    cartService.deleteCart(checkedCart);
+
+    checkedCart = cartService.findById(carts.get(0).getId());
+    assertNull(checkedCart);
+  }
+
+  @Test
+  void testFindOpenCartByUser() {
+    Cart checkedCart = cartService.findOpenCartByUser(users.get(0));
+    assertNotNull(checkedCart);
+    assertEquals(carts.get(0), checkedCart);
+
+    User unknownUser = new User("secondUser", "password", "FirstName", "SecondName");
+    userDAO.saveAndFlush(unknownUser);
+    users.add(unknownUser);
+
+    checkedCart = cartService.findOpenCartByUser(unknownUser);
+    assertNull(checkedCart);
+
+    cartService.close(carts.get(0));
+    checkedCart = cartService.findOpenCartByUser(users.get(0));
+    assertNull(checkedCart);
+  }
+
+  @Test
+  void testClose() {
+    Cart checkedCart = cartService.findById(carts.get(0).getId());
+    assertFalse(checkedCart.getClosed());
+
+    cartService.close(checkedCart);
+
+    checkedCart = cartService.findById(carts.get(0).getId());
+    assertTrue(checkedCart.getClosed());
+  }
 }
