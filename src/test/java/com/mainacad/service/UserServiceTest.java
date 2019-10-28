@@ -2,6 +2,8 @@ package com.mainacad.service;
 
 import com.mainacad.ApplicationRunner;
 import com.mainacad.dao.UserDAO;
+import com.mainacad.entity.Cart;
+import com.mainacad.entity.Order;
 import com.mainacad.entity.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,7 +29,6 @@ class UserServiceTest {
 
   @Autowired
   UserService userService;
-
 
   @BeforeEach
   void setUp() {
@@ -69,5 +70,61 @@ class UserServiceTest {
     if (checkedUser != null) {
       assertNotEquals(users.get(0), checkedUser);
     }
+  }
+
+  @Test
+  void testSave() {
+    User user = new User(USER_LOGIN + "1", USER_PASSWORD, "test_name", "test_surname");
+    users.add(user);
+
+    User checkedUser = userService.save(user);
+    assertNotNull(checkedUser);
+
+    checkedUser = userService.save(users.get(0));
+    assertNull(checkedUser);
+  }
+
+  @Test
+  void testFindById() {
+    User checkedUser = userService.findById(users.get(0).getId());
+
+    assertNotNull(checkedUser);
+    assertEquals(users.get(0), checkedUser);
+
+    userService.delete(checkedUser.getId());
+
+    checkedUser = userService.findById(users.get(0).getId());
+    assertNull(checkedUser);
+  }
+
+  @Test
+  void update() {
+    String newName = "New name";
+    User checkedUser = users.get(0);
+
+    checkedUser.setFirstName(newName);
+    checkedUser = userService.update(checkedUser);
+    assertNotNull(checkedUser);
+
+    checkedUser = userService.findById(users.get(0).getId());
+    assertNotNull(checkedUser);
+    assertEquals(newName, checkedUser.getFirstName());
+
+    userService.delete(checkedUser.getId());
+
+    checkedUser = userService.update(users.get(0));
+    assertNull(checkedUser);
+  }
+
+  @Test
+  void delete() {
+    User checkedUser = userService.findById(users.get(0).getId());
+    assertNotNull(checkedUser);
+    assertEquals(users.get(0), checkedUser);
+
+    userService.delete(checkedUser.getId());
+
+    checkedUser = userService.findById(users.get(0).getId());
+    assertNull(checkedUser);
   }
 }

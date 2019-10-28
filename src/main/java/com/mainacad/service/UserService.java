@@ -14,11 +14,10 @@ public class UserService {
     @Autowired
     private UserDAO userDAO;
 
-    // TODO Add to test
     public User save(User user){
         List<User> users = userDAO.findAllByLogin(user.getLogin());
         if (users.isEmpty()) {
-            return userDAO.save(user);
+            return userDAO.saveAndFlush(user);
         }
 
         return null;
