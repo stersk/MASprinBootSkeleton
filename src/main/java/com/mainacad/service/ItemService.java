@@ -2,16 +2,12 @@ package com.mainacad.service;
 
 import com.mainacad.dao.ItemDAO;
 import com.mainacad.entity.Item;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@Setter
-@Getter
 public class ItemService {
   @Autowired
   private ItemDAO itemDAO;

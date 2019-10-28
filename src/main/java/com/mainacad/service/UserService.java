@@ -2,17 +2,14 @@ package com.mainacad.service;
 
 import com.mainacad.dao.UserDAO;
 import com.mainacad.entity.User;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
 @Service
-@Setter
-@Getter
 public class UserService {
     @Autowired
     private UserDAO userDAO;
@@ -45,7 +42,13 @@ public class UserService {
     }
 
     public User update(User user) {
-      return userDAO.saveAndFlush(user);
+        Optional<User> checkedUser = userDAO.findById(user.getId());
+
+        if (checkedUser.isPresent()) {
+            return userDAO.saveAndFlush(user);
+        } else {
+            return null;
+        }
     }
 
     public User findByLogin(String login){
