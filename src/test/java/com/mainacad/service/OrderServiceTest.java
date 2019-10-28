@@ -19,8 +19,7 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringJUnitConfig(ApplicationRunner.class)
 @ActiveProfiles("test")
@@ -61,6 +60,22 @@ class OrderServiceTest {
     Cart cart = new Cart(1565024867119L, false, user);
     cart = cartDAO.save(cart);
     carts.add(cart);
+
+    Cart secondCart = new Cart(1565024867119L, true, user);
+    secondCart = cartDAO.save(secondCart);
+    carts.add(secondCart);
+
+    Order order = new Order(item, 1, cart);
+    order = orderDAO.save(order);
+    orders.add(order);
+
+    Order order1 = new Order(item, 1, cart);
+    order1 = orderDAO.save(order1);
+    orders.add(order1);
+
+    Order order2 = new Order(item, 1, secondCart);
+    order2 = orderDAO.save(order2);
+    orders.add(order2);
   }
 
   @AfterEach
@@ -104,11 +119,58 @@ class OrderServiceTest {
     assertNotNull(createdOrder);
 
     Order checkedOrder = orderService.findById(createdOrder.getId());
-    assertEquals(1, checkedOrder.getAmount());
+    assertEquals(2, checkedOrder.getAmount());
 
     createdOrder = orderService.addItemToOrder(items.get(0),users.get(0));
 
     checkedOrder = orderService.findById(createdOrder.getId());
-    assertEquals(2, checkedOrder.getAmount());
+    assertEquals(3, checkedOrder.getAmount());
+  }
+
+  @Test
+  void testGetOrdersByCart() {
+    List<Order> checkedOrders = orderService.getOrdersByCart(carts.get(0));
+
+    assertNotNull(checkedOrders);
+    assertEquals(2, checkedOrders.size());
+    checkedOrders.stream().forEach(order -> assertEquals(carts.get(0), order.getCart()));
+  }
+
+  @Test
+  void testFindById() {
+    Order checkedOrder = orderService.findById(orders.get(0).getId());
+
+    assertNotNull(checkedOrder);
+    assertEquals(orders.get(0), checkedOrder);
+
+    orderService.deleteOrder(checkedOrder);
+
+    checkedOrder = orderService.findById(orders.get(0).getId());
+    assertNull(checkedOrder);
+  }
+
+  @Test
+  void testDeleteOrder() {
+    Order checkedOrder = orderService.findById(orders.get(0).getId());
+    assertNotNull(checkedOrder);
+    assertEquals(orders.get(0), checkedOrder);
+
+    orderService.deleteOrder(checkedOrder);
+
+    checkedOrder = orderService.findById(orders.get(0).getId());
+    assertNull(checkedOrder);
+  }
+
+  @Test
+  void testUpdateItemAmountInOrder() {
+    Order checkedOrder = orderService.findById(orders.get(0).getId());
+    assertNotNull(checkedOrder);
+    assertEquals(orders.get(0).getAmount(), checkedOrder.getAmount());
+
+    orderService.updateItemAmountInOrder(checkedOrder, 5);
+
+    checkedOrder = orderService.findById(orders.get(0).getId());
+    assertNotNull(checkedOrder);
+    assertEquals(5, checkedOrder.getAmount());
   }
 }
