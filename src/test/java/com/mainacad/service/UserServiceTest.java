@@ -2,8 +2,6 @@ package com.mainacad.service;
 
 import com.mainacad.ApplicationRunner;
 import com.mainacad.dao.UserDAO;
-import com.mainacad.entity.Cart;
-import com.mainacad.entity.Order;
 import com.mainacad.entity.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -61,7 +59,7 @@ class UserServiceTest {
   }
 
   @Test
-  void findByLogin() {
+  void testFindByLogin() {
     User checkedUser = userService.findByLogin(USER_LOGIN);
     assertNotNull(checkedUser);
     assertEquals(users.get(0), checkedUser);
@@ -98,7 +96,7 @@ class UserServiceTest {
   }
 
   @Test
-  void update() {
+  void testUpdate() {
     String newName = "New name";
     User checkedUser = users.get(0);
 
@@ -117,7 +115,7 @@ class UserServiceTest {
   }
 
   @Test
-  void delete() {
+  void testDelete() {
     User checkedUser = userService.findById(users.get(0).getId());
     assertNotNull(checkedUser);
     assertEquals(users.get(0), checkedUser);
