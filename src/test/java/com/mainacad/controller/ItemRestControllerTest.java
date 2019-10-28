@@ -29,7 +29,7 @@ import static org.mockito.Mockito.doNothing;
 @SpringJUnitConfig(App.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
-public class ItemControllerTest {
+public class ItemRestControllerTest {
 
   @Autowired
   TestRestTemplate testRestTemplate;

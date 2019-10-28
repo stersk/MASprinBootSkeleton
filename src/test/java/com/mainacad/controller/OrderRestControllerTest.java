@@ -35,7 +35,7 @@ import static org.mockito.Mockito.doNothing;
 @SpringJUnitConfig(App.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
-class OrderControllerTest {
+class OrderRestControllerTest {
   @Autowired
   TestRestTemplate testRestTemplate;
 

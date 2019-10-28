@@ -29,7 +29,7 @@ import static org.mockito.Mockito.doNothing;
 @SpringJUnitConfig(App.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
-public class UserControllerTest {
+public class UserRestControllerTest {
 
   @Autowired
   TestRestTemplate testRestTemplate;
@@ -41,9 +41,9 @@ public class UserControllerTest {
   public void testCreateUser() throws URISyntaxException {
     User user = new User();
     user.setId(1);
-    user.setFirstName("Testerenko");
+    user.setFirstName("Tester");
     user.setLastName("User");
-    user.setLogin("testerenko34");
+    user.setLogin("tester34");
     user.setPassword("12345");
 
     Mockito.when(userService.save(Mockito.any(User.class))).thenReturn(user);
@@ -59,9 +59,9 @@ public class UserControllerTest {
   public void testUpdateUser() throws URISyntaxException {
     User user = new User();
     user.setId(1);
-    user.setFirstName("Testerenko");
+    user.setFirstName("Test");
     user.setLastName("User");
-    user.setLogin("testerenko34");
+    user.setLogin("tester");
     user.setPassword("12345");
 
     Mockito.when(userService.update(Mockito.any(User.class))).thenReturn(user);
@@ -79,9 +79,9 @@ public class UserControllerTest {
   public void testFindById() throws URISyntaxException {
     User user = new User();
     user.setId(1);
-    user.setFirstName("Testerenko");
+    user.setFirstName("Tester");
     user.setLastName("User");
-    user.setLogin("testerenko34");
+    user.setLogin("tester");
     user.setPassword("12345");
 
     Mockito.when(userService.findById(user.getId())).thenReturn(user);
