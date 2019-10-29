@@ -23,7 +23,9 @@ public class AuthController {
   public ModelAndView getLandingPage(Model model) {
     if (!model.containsAttribute("wrongAuth")) {
       model.addAttribute("wrongAuth", false);
-    } else if (model.containsAttribute("user") && model.asMap().get("user") != null) {
+    }
+
+    if (model.containsAttribute("user") && model.asMap().get("user") != null) {
       return new ModelAndView("redirect:/items", model.asMap());
     }
 
@@ -41,7 +43,7 @@ public class AuthController {
   @PostMapping(path = "/auth")
   @Profile("dev")
   public ModelAndView authUser(Model model, HttpSession session, @RequestBody MultiValueMap<String, String> queryData) {
-    boolean wrongAuth = false;
+    boolean wrongAuth = true;
     ModelAndView respond = new ModelAndView("/");
 
     String action = queryData.getFirst("action");
@@ -60,12 +62,13 @@ public class AuthController {
       } else {
         wrongAuth = true;
 
+        model.addAttribute("wrongAuth", wrongAuth);
         respond = new ModelAndView("redirect:/", model.asMap());
       }
+    } else {
+      model.addAttribute("wrongAuth", wrongAuth);
     }
 
-    // TODO Refactor from session attribute to flashAttribute or pass parameter via URL
-    model.addAttribute("wrongAuth", wrongAuth);
     return respond;
   }
 }
