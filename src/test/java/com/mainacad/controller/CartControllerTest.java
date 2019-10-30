@@ -141,7 +141,70 @@ class CartControllerTest {
   }
 
   @Test
-  void confirmCart() {
+  void confirmCart() throws Exception {
+    String requestUrl = "/cart/confirm";
+
+    // If user session parameter absent redirect to root
+    this.mockMvc.perform(post(requestUrl).contentType(MediaType.APPLICATION_FORM_URLENCODED)).andDo(print())
+            .andExpect(status().is3xxRedirection())
+            .andExpect(view().name("redirect:/"))
+            .andExpect(redirectedUrl("/"));
+
+    User checkedUser = new User(1, "login1", "password1", "firstName1", "lastName");
+
+    Item item1 = new Item(1, "test_item", "Test item", 20000);
+    Item item2 = new Item(2, "test_item_2", "Test item_2", 20000);
+
+    List<Item> checkedItems = new ArrayList<>();
+    checkedItems.add(item1);
+    checkedItems.add(item2);
+
+    Cart cart = new Cart(1, 1565024867119L, false, checkedUser);
+
+    Order order1 = new Order(1, item1, 3, cart);
+    Order order2 = new Order(2, item2, 3, cart);
+
+    List<Order> orders = new ArrayList<>();
+    orders.add(order1);
+    orders.add(order2);
+
+    Mockito.when(cartService.findOpenCartByUser(checkedUser)).thenReturn(cart);
+    Mockito.when(orderService.getOrdersByCart(cart)).thenReturn(orders);
+    Mockito.when(cartService.getCartSum(cart)).thenReturn(120000);
+    Mockito.when(cartService.close(cart)).thenReturn(cart);
+
+    // If session user exist and there are some orders
+    this.mockMvc.perform(post(requestUrl).sessionAttr("user", checkedUser).contentType(MediaType.APPLICATION_FORM_URLENCODED)).andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(view().name("cart-confirmed"))
+            .andExpect(model().attribute("user", is(checkedUser)))
+            .andExpect(model().attribute("itemsCount", is(orders.size())))
+            .andExpect(model().attribute("cartSum", is(120000)))
+            .andExpect(model().attribute("creationDate", is(new Date(cart.getCreationTime()))))
+            .andExpect(forwardedUrl("/WEB-INF/jsp/cart-confirmed.jsp")).andReturn();
+
+
+    Mockito.verify(cartService, Mockito.times(1)).findOpenCartByUser(checkedUser);
+    Mockito.verify(orderService, Mockito.times(1)).getOrdersByCart(cart);
+    Mockito.verify(cartService, Mockito.times(1)).close(cart);
+    Mockito.verify(cartService, Mockito.times(1)).getCartSum(cart);
+
+    // If session user exist and there are no orders
+    Mockito.reset(cartService);
+    Mockito.reset(orderService);
+
+    List<Order> emptyList = new ArrayList<>();
+
+    Mockito.when(cartService.findOpenCartByUser(checkedUser)).thenReturn(cart);
+    Mockito.when(orderService.getOrdersByCart(cart)).thenReturn(emptyList);
+
+    this.mockMvc.perform(post(requestUrl).sessionAttr("user", checkedUser).contentType(MediaType.APPLICATION_FORM_URLENCODED)).andDo(print())
+            .andExpect(status().is3xxRedirection())
+            .andExpect(view().name("redirect:/items"))
+            .andExpect(redirectedUrl("/items"));
+
+    Mockito.verify(cartService, Mockito.times(1)).findOpenCartByUser(checkedUser);
+    Mockito.verify(orderService, Mockito.times(1)).getOrdersByCart(cart);
   }
 
   @Test
