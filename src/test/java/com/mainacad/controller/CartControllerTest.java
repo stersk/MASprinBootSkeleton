@@ -72,7 +72,7 @@ class CartControllerTest {
   }
 
   @Test
-  void getCartPage() throws Exception {
+  void testGetCartPage() throws Exception {
     String requestUrl = "/cart";
 
     // If user session parameter absent redirect to root
@@ -141,7 +141,7 @@ class CartControllerTest {
   }
 
   @Test
-  void confirmCart() throws Exception {
+  void testConfirmCart() throws Exception {
     String requestUrl = "/cart/confirm";
 
     // If user session parameter absent redirect to root
@@ -208,7 +208,7 @@ class CartControllerTest {
   }
 
   @Test
-  void discardCart() throws Exception {
+  void testDiscardCart() throws Exception {
     String requestUrl = "/cart/discard";
 
     // If user session parameter absent redirect to root
