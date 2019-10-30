@@ -208,24 +208,28 @@ class CartControllerTest {
   }
 
   @Test
-  void discardCart() {
-  }
+  void discardCart() throws Exception {
+    String requestUrl = "/cart/discard";
 
-//  void authUserViaPost() throws Exception {
-//    String requestUrl = "/auth";
-//    Map<String, String> bodyData = new HashMap<>();
-//
-//    mockMvc.perform(post(requestUrl).contentType(APPLICATION_JSON_UTF8)
-//            .content(mapDataToJson(bodyData))).andDo(print())
-//            .andExpect(status().isOk());
-//  }
-//
-//  private String mapDataToJson(Map<String, String> data) throws JsonProcessingException {
-//    ObjectMapper mapper = new ObjectMapper();
-//    mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
-//    ObjectWriter objectWriter = mapper.writer().withDefaultPrettyPrinter();
-//    String dataInJson = objectWriter.writeValueAsString(data);
-//
-//    return dataInJson;
-//  }
+    // If user session parameter absent redirect to root
+    this.mockMvc.perform(post(requestUrl).contentType(MediaType.APPLICATION_FORM_URLENCODED)).andDo(print())
+            .andExpect(status().is3xxRedirection())
+            .andExpect(view().name("redirect:/"))
+            .andExpect(redirectedUrl("/"));
+
+    User checkedUser = new User(1, "login1", "password1", "firstName1", "lastName");
+    Cart checkedCart = new Cart(1, 1565024867119L, false, checkedUser);
+
+    Mockito.when(cartService.findOpenCartByUser(checkedUser)).thenReturn(checkedCart);
+
+    // If session user exist and there are some orders
+    this.mockMvc.perform(post(requestUrl).sessionAttr("user", checkedUser).contentType(MediaType.APPLICATION_FORM_URLENCODED)).andDo(print())
+            .andExpect(status().is3xxRedirection())
+            .andExpect(view().name("redirect:/items"))
+            .andExpect(model().attribute("discardCompleted", is(true)))
+            .andExpect(redirectedUrlPattern("/items*"));
+
+    Mockito.verify(cartService, Mockito.times(1)).findOpenCartByUser(checkedUser);
+    Mockito.verify(cartService, Mockito.times(1)).deleteCart(checkedCart);
+  }
 }
