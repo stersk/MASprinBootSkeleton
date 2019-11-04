@@ -2,7 +2,6 @@ package com.mainacad.service;
 
 import com.mainacad.dao.ItemDAO;
 import com.mainacad.entity.Item;
-import com.mainacad.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -3,7 +3,6 @@ package com.mainacad.service;
 import com.mainacad.ApplicationRunner;
 import com.mainacad.dao.ItemDAO;
 import com.mainacad.entity.Item;
-import com.mainacad.entity.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

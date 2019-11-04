@@ -2,7 +2,6 @@ package com.mainacad.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mainacad.entity.User;
-import com.mainacad.service.ItemService;
 import com.mainacad.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,13 +21,11 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import java.util.Map;
 
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(RegistrationController.class)

@@ -1,22 +1,14 @@
 package com.mainacad.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.mainacad.entity.Cart;
 import com.mainacad.entity.Item;
 import com.mainacad.entity.Order;
 import com.mainacad.entity.User;
 import com.mainacad.service.CartService;
 import com.mainacad.service.OrderService;
-import org.junit.Before;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,20 +19,16 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.ui.Model;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
-import java.nio.charset.Charset;
 import java.util.*;
 
-import static org.hamcrest.Matchers.any;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(CartController.class)
@@ -116,8 +104,8 @@ class CartControllerTest {
 
     Map<String, Object> responseModel = Objects.requireNonNull(result.getModelAndView()).getModel();
     assertEquals(120000, (Integer) responseModel.get("cartSum"));
-    assertEquals(checkedItems, (List) responseModel.get("items"));
-    assertEquals(orders, (List) responseModel.get("orders"));
+    assertEquals(checkedItems, responseModel.get("items"));
+    assertEquals(orders, responseModel.get("orders"));
 
     // If session user exist and user has no orders
     result = this.mockMvc.perform(get(requestUrl).sessionAttr("user", userWithEmptyCart)).andDo(print())
@@ -128,8 +116,8 @@ class CartControllerTest {
 
     responseModel = Objects.requireNonNull(result.getModelAndView()).getModel();
     assertEquals(0, (Integer) responseModel.get("cartSum"));
-    assertEquals(emptyItemsList, (List) responseModel.get("items"));
-    assertEquals(emptyOrdersList, (List) responseModel.get("orders"));
+    assertEquals(emptyItemsList, responseModel.get("items"));
+    assertEquals(emptyOrdersList, responseModel.get("orders"));
 
     Mockito.verify(cartService, Mockito.times(1)).getOrdersFromOpenCartByUser(checkedUser);
     Mockito.verify(cartService, Mockito.times(1)).getOrdersFromOpenCartByUser(userWithEmptyCart);
