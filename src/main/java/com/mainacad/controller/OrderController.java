@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @Controller
 @SessionAttributes("user")
@@ -41,8 +42,15 @@ public class OrderController {
        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    Integer itemId = Integer.parseInt(queryData.getFirst("itemId"));
-    Item item = itemService.findById(itemId);
+    String itemIdParameter = queryData.getFirst("itemId");
+    if (itemIdParameter == null) {
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    Item item = itemService.findById(Integer.parseInt(itemIdParameter));
+    if (item == null) {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 
     Order order = orderService.addItemToOrder(item, user);
 
