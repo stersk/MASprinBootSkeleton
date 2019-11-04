@@ -70,7 +70,7 @@ class OrderControllerTest {
   }
 
   @Test
-  void addItemToCart() throws Exception {
+  void testAddItemToCart() throws Exception {
     String requestUrl = "/order/addItemToCart";
 
     // If user session parameter absent redirect to root
@@ -130,19 +130,118 @@ class OrderControllerTest {
   }
 
   @Test
-  void removeFromOpenCart() {
+  void testRemoveFromOpenCart() throws Exception {
+    String requestUrl = "/order/removeFromOpenCart";
+
+    User checkedUser = new User(1, "login", "password", "firstName", "secondName");
+    Item checkedItem = new Item(1, "123", "name", 1000);
+    Cart checkedCart = new Cart(1, 1565024867119L, false, checkedUser);
+    Order checkedOrder1 = new Order(1, checkedItem, 1, checkedCart);
+    Order checkedOrder2 = new Order(2, checkedItem, 1, checkedCart);
+
+    Mockito.when(orderService.findById(checkedOrder1.getId())).thenReturn(checkedOrder1);
+    Mockito.when(cartService.getCartSum(checkedOrder1.getCart())).thenReturn(1000);
+
+    MvcResult result = mockMvc.perform(post(requestUrl)
+            .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+            .param("orderId", "1")).andDo(print())
+            .andExpect(status().isOk())
+            .andReturn();
+
+    ObjectMapper objectMapper = new ObjectMapper();
+    Map responseData = objectMapper.readValue(result.getResponse().getContentAsString(), Map.class);
+
+    assertEquals("LinkedHashMap", responseData.getClass().getSimpleName());
+    assertNotNull(responseData.get("cartSum"));
+    assertEquals(1000, responseData.get("cartSum"));
+
+    Mockito.verify(cartService, Mockito.times(1)).getCartSum(checkedOrder1.getCart());
+    Mockito.verify(orderService, Mockito.times(1)).findById(checkedOrder1.getId());
+    Mockito.verify(orderService, Mockito.times(1)).deleteOrder(checkedOrder1);
   }
 
   @Test
-  void updateItemAmountInOrder() {
-  }
+  void testUpdateItemAmountInOrder() throws Exception {
+    String requestUrl = "/order/updateItemAmountInOrder";
 
-  private String mapDataToJson(Map<String, String> data) throws JsonProcessingException {
-    ObjectMapper mapper = new ObjectMapper();
-    mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
-    ObjectWriter objectWriter = mapper.writer();
-    String dataInJson = objectWriter.writeValueAsString(data);
+    User checkedUser = new User(1, "login", "password", "firstName", "secondName");
+    Item checkedItem = new Item(1, "123", "name", 1000);
+    Cart checkedCart = new Cart(1, 1565024867119L, false, checkedUser);
+    Order checkedOrder1 = new Order(1, checkedItem, 1, checkedCart);
+    Order checkedOrder2 = new Order(2, checkedItem, 1, checkedCart);
 
-    return dataInJson;
+    // update items amount (result amount not 0)
+    Mockito.when(orderService.findById(checkedOrder1.getId())).thenReturn(checkedOrder1);
+    Mockito.when(cartService.getCartSum(checkedOrder1.getCart())).thenReturn(1000);
+    Mockito.when(orderService.updateItemAmountInOrder(checkedOrder1, 1)).thenReturn(checkedOrder1);
+
+    MvcResult result = mockMvc.perform(post(requestUrl)
+            .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+            .param("orderId", "1")
+            .param("amount", "1")).andDo(print())
+            .andExpect(status().isOk())
+            .andReturn();
+
+    ObjectMapper objectMapper = new ObjectMapper();
+    Map responseData = objectMapper.readValue(result.getResponse().getContentAsString(), Map.class);
+
+    assertEquals("LinkedHashMap", responseData.getClass().getSimpleName());
+    assertNotNull(responseData.get("cartSum"));
+    assertEquals(1000, responseData.get("cartSum"));
+
+    Mockito.verify(cartService, Mockito.times(1)).getCartSum(checkedOrder1.getCart());
+    Mockito.verify(orderService, Mockito.times(1)).findById(checkedOrder1.getId());
+    Mockito.verify(orderService, Mockito.times(1)).updateItemAmountInOrder(checkedOrder1, 1);
+    Mockito.verify(orderService, Mockito.never()).deleteOrder(checkedOrder1);
+
+    // update items amount (result amount is 0)
+    Mockito.reset(orderService, cartService);
+
+    Mockito.when(orderService.findById(checkedOrder1.getId())).thenReturn(checkedOrder1);
+    Mockito.when(cartService.getCartSum(checkedOrder1.getCart())).thenReturn(1000);
+    Mockito.when(orderService.updateItemAmountInOrder(checkedOrder1, 1)).thenReturn(checkedOrder1);
+
+    result = mockMvc.perform(post(requestUrl)
+            .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+            .param("orderId", "1")
+            .param("amount", "0")).andDo(print())
+            .andExpect(status().isOk())
+            .andReturn();
+
+    responseData = objectMapper.readValue(result.getResponse().getContentAsString(), Map.class);
+
+    assertEquals("LinkedHashMap", responseData.getClass().getSimpleName());
+    assertNotNull(responseData.get("cartSum"));
+    assertEquals(1000, responseData.get("cartSum"));
+
+    Mockito.verify(cartService, Mockito.times(1)).getCartSum(checkedOrder1.getCart());
+    Mockito.verify(orderService, Mockito.times(1)).findById(checkedOrder1.getId());
+    Mockito.verify(orderService, Mockito.never()).updateItemAmountInOrder(checkedOrder1, 0);
+    Mockito.verify(orderService, Mockito.times(1)).deleteOrder(checkedOrder1);
+
+    // order not found
+    Mockito.reset(orderService, cartService);
+
+    Mockito.when(orderService.findById(checkedOrder1.getId())).thenReturn(checkedOrder1);
+    Mockito.when(cartService.getCartSum(checkedOrder1.getCart())).thenReturn(1000);
+    Mockito.when(orderService.updateItemAmountInOrder(checkedOrder1, 1)).thenReturn(null);
+
+    result = mockMvc.perform(post(requestUrl)
+            .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+            .param("orderId", "1")
+            .param("amount", "1")).andDo(print())
+            .andExpect(status().isOk())
+            .andReturn();
+
+    responseData = objectMapper.readValue(result.getResponse().getContentAsString(), Map.class);
+
+    assertEquals("LinkedHashMap", responseData.getClass().getSimpleName());
+    assertNotNull(responseData.get("cartSum"));
+    assertEquals(0, responseData.get("cartSum"));
+
+    Mockito.verify(cartService, Mockito.never()).getCartSum(checkedOrder1.getCart());
+    Mockito.verify(orderService, Mockito.times(1)).findById(checkedOrder1.getId());
+    Mockito.verify(orderService, Mockito.times(1)).updateItemAmountInOrder(checkedOrder1, 1);
+    Mockito.verify(orderService, Mockito.never()).deleteOrder(checkedOrder1);
   }
 }
