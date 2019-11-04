@@ -44,11 +44,19 @@ public class RegistrationController {
     ModelAndView respond = new ModelAndView();
     String action = queryData.getFirst("action");
 
-    if (action.equals("register")) {
+    if (action != null && action.equals("register")) {
       String login = queryData.getFirst("login");
       String password = queryData.getFirst("password");
       String firstName = queryData.getFirst("fname");
       String lastName = queryData.getFirst("lname");
+
+      if (login == null || password == null || firstName == null || lastName == null) {
+        respond.setViewName("");
+        respond.setStatus(HttpStatus.BAD_REQUEST);
+
+        return respond;
+      }
+
       User user = new User(login, password, firstName, lastName);
 
       User savedUser = userService.save(user);
@@ -59,7 +67,7 @@ public class RegistrationController {
 
         respond = new ModelAndView("redirect:/", (Map<String, ?>) model);
       } else {
-//        TODO Make error page when clien-side validation not perfomed and it cause server-side error
+
         respond.setStatus(HttpStatus.BAD_REQUEST);
         respond.setViewName("");
       }
