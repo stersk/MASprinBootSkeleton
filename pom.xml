@@ -27,6 +27,7 @@
     <swagger.version>2.9.2</swagger.version>
     <mockito.version>1.10.19</mockito.version>
     <jstl.version>1.2</jstl.version>
+    <flyway.version>5.2.4</flyway.version>
   </properties>
 
   <dependencies>
@@ -55,12 +56,6 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
       <version>${spring-boot.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-devtools</artifactId>
-      <version>${spring-boot.version}</version>
-      <scope>runtime</scope>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -146,23 +141,6 @@
       <version>${postgres.version}</version>
     </dependency>
 
-    <!--JAXB-->
-    <dependency>
-      <groupId>javax.xml.bind</groupId>
-      <artifactId>jaxb-api</artifactId>
-      <version>${jaxb.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.sun.xml.bind</groupId>
-      <artifactId>jaxb-core</artifactId>
-      <version>${jaxb.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.sun.xml.bind</groupId>
-      <artifactId>jaxb-impl</artifactId>
-      <version>${jaxb.version}</version>
-    </dependency>
-
     <!--    JSON-->
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
@@ -180,6 +158,13 @@
       <groupId>javax.servlet</groupId>
       <artifactId>jstl</artifactId>
       <version>${jstl.version}</version>
+    </dependency>
+
+    <!-- FLYWAY -->
+    <dependency>
+      <groupId>org.flywaydb</groupId>
+      <artifactId>flyway-core</artifactId>
+      <version>${flyway.version}</version>
     </dependency>
   </dependencies>
 
