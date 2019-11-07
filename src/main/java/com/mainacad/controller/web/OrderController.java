@@ -1,4 +1,4 @@
-package com.mainacad.controller;
+package com.mainacad.controller.web;
 
 import com.mainacad.entity.Cart;
 import com.mainacad.entity.Item;
@@ -22,6 +22,7 @@ import java.util.Map;
 
 @Controller
 @SessionAttributes("user")
+@Profile("web")
 public class OrderController {
   @Autowired
   ItemService itemService;
@@ -34,7 +35,6 @@ public class OrderController {
 
   @PostMapping(path = "/order/addItemToCart", produces = "application/json")
   @ResponseBody
-  @Profile("dev")
   public ResponseEntity<Item> addItemToCart(Model model, HttpSession session, @RequestBody MultiValueMap<String, String> queryData) {
     User user = (User) model.asMap().get("user");
     if (user == null) {
@@ -62,7 +62,6 @@ public class OrderController {
 
   @PostMapping(value = "/order/removeFromOpenCart", produces = "application/json")
   @ResponseBody
-  @Profile("dev")
   public Map<String, Object> removeFromOpenCart(Model model, @RequestBody MultiValueMap<String, String> queryData) {
     Integer orderId = Integer.parseInt(queryData.getFirst("orderId"));
     Integer newCartSum = deleteOrderAndReturnCartSum(orderId);
@@ -75,7 +74,6 @@ public class OrderController {
 
   @PostMapping(value = "/order/updateItemAmountInOrder", produces = "application/json")
   @ResponseBody
-  @Profile("dev")
   public Map<String, Object> updateItemAmountInOrder(Model model, @RequestBody MultiValueMap<String, String> queryData) {
     Integer orderId = Integer.parseInt(queryData.getFirst("orderId"));
     Integer amount = Integer.parseInt(queryData.getFirst("amount"));

@@ -1,4 +1,4 @@
-package com.mainacad.controller;
+package com.mainacad.controller.web;
 
 import com.mainacad.entity.Item;
 import com.mainacad.service.ItemService;
@@ -13,6 +13,7 @@ import java.util.List;
 
 @Controller
 @SessionAttributes({"user", "items"})
+@Profile("web")
 public class ItemController {
   @Autowired
   ItemService itemService;
@@ -25,7 +26,6 @@ public class ItemController {
   }
 
   @GetMapping("/items")
-  @Profile("dev")
   public String getItemsPage(Model model, @ModelAttribute("items") List<Item> items) {
     items = itemService.findAll();
     model.addAttribute("items", items);

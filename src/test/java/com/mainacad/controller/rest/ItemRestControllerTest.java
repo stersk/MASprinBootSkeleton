@@ -1,4 +1,4 @@
-package com.mainacad.controller;
+package com.mainacad.controller.rest;
 
 import com.mainacad.ApplicationRunner;
 import com.mainacad.entity.Item;
@@ -28,7 +28,7 @@ import static org.mockito.Mockito.doNothing;
 
 @SpringJUnitConfig(ApplicationRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("test")
+@ActiveProfiles("rest")
 public class ItemRestControllerTest {
 
   @Autowired

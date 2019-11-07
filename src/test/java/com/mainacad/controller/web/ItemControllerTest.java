@@ -1,5 +1,6 @@
-package com.mainacad.controller;
+package com.mainacad.controller.web;
 
+import com.mainacad.controller.web.ItemController;
 import com.mainacad.entity.Item;
 import com.mainacad.service.ItemService;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,6 +11,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -24,6 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(ItemController.class)
+@ActiveProfiles("web")
 class ItemControllerTest {
   private MockMvc mockMvc;
 

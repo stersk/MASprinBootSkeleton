@@ -1,4 +1,4 @@
-package com.mainacad.controller;
+package com.mainacad.controller.web;
 
 import com.mainacad.entity.User;
 import com.mainacad.service.UserService;
@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpSession;
 
 @Controller
+@Profile("web")
 @SessionAttributes({"wrongAuth", "user"})
 public class AuthController {
   @Autowired

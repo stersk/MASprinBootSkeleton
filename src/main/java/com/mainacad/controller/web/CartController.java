@@ -1,4 +1,4 @@
-package com.mainacad.controller;
+package com.mainacad.controller.web;
 
 import com.mainacad.entity.Cart;
 import com.mainacad.entity.Item;
@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 
 @Controller
 @SessionAttributes("user")
+@Profile("web")
 public class CartController {
   @Autowired
   CartService cartService;
@@ -32,7 +33,6 @@ public class CartController {
   OrderService orderService;
 
   @GetMapping("/cart")
-  @Profile("dev")
   public String getCartPage(Model model) {
     List<Order> orders = new ArrayList<>();
     List<Item> items = new ArrayList<>();
@@ -66,7 +66,6 @@ public class CartController {
   }
 
   @PostMapping(path = "/cart/confirm", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-  @Profile("dev")
   public ModelAndView confirmCart(Model model, HttpSession session) {
     if (model.asMap().get("user") != null) {
       Cart openedCart = cartService.findOpenCartByUser((User) model.asMap().get("user"));
@@ -92,7 +91,6 @@ public class CartController {
   }
 
   @PostMapping(path = "/cart/discard", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-  @Profile("dev")
   public ModelAndView discardCart(Model model, HttpSession session) {
     if (model.asMap().get("user") != null) {
       Cart openedCart = cartService.findOpenCartByUser((User) model.asMap().get("user"));

@@ -1,8 +1,9 @@
-package com.mainacad.controller;
+package com.mainacad.controller.rest;
 
 import com.mainacad.entity.Item;
 import com.mainacad.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/item")
+@Profile("rest")
 public class ItemRestController {
   @Autowired
   private ItemService itemService;

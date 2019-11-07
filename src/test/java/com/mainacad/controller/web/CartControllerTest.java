@@ -1,5 +1,6 @@
-package com.mainacad.controller;
+package com.mainacad.controller.web;
 
+import com.mainacad.controller.web.CartController;
 import com.mainacad.entity.Cart;
 import com.mainacad.entity.Item;
 import com.mainacad.entity.Order;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -32,6 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(CartController.class)
+@ActiveProfiles("web")
 class CartControllerTest {
   private MockMvc mockMvc;
 

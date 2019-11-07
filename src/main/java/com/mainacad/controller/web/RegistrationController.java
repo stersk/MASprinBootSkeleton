@@ -1,4 +1,4 @@
-package com.mainacad.controller;
+package com.mainacad.controller.web;
 
 import com.mainacad.entity.User;
 import com.mainacad.service.UserService;
@@ -16,19 +16,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Controller
+@Profile("web")
 public class RegistrationController {
   @Autowired
   UserService userService;
 
   @GetMapping("/register")
-  @Profile("dev")
   public String getRegistrationPage(Model model) {
     return "registration";
   }
 
   @GetMapping(value = "/registration/userExist", produces = "application/json")
   @ResponseBody
-  @Profile("dev")
   public Map<String, Boolean> checkUserExistByLogin(Model model, @RequestParam(name = "login") String userLogin) {
     User user = userService.findByLogin(userLogin);
 
@@ -39,7 +38,6 @@ public class RegistrationController {
   }
 
   @PostMapping(path = "/register")
-  @Profile("dev")
   public ModelAndView registerUser(Model model, HttpSession session, @RequestBody MultiValueMap<String, String> queryData) {
     ModelAndView respond = new ModelAndView();
     String action = queryData.getFirst("action");
