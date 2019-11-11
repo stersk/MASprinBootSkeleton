@@ -7,6 +7,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
@@ -28,9 +29,12 @@ class UserServiceTest {
   @Autowired
   UserService userService;
 
+  @Autowired
+  PasswordEncoder passwordEncoder;
+
   @BeforeEach
   void setUp() {
-    User user = new User(USER_LOGIN, USER_PASSWORD, "test_name", "test_surname");
+    User user = new User(USER_LOGIN, passwordEncoder.encode(USER_PASSWORD), "test_name", "test_surname");
     user = userDAO.save(user);
     users.add(user);
   }

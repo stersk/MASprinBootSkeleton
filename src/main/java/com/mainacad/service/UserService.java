@@ -3,6 +3,7 @@ package com.mainacad.service;
 import com.mainacad.dao.UserDAO;
 import com.mainacad.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,6 +14,9 @@ import java.util.concurrent.atomic.AtomicReference;
 public class UserService {
     @Autowired
     private UserDAO userDAO;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public User save(User user){
         List<User> users = userDAO.findAllByLogin(user.getLogin());
@@ -27,12 +31,17 @@ public class UserService {
         return userDAO.findById(id).orElse(null);
     }
 
-    public User findByLoginAndPassword(String login, String password){
+    public User findByLoginAndPassword(String login, String rawPassword){
         AtomicReference<User> user = new AtomicReference<>();
 
         List<User> users = userDAO.findAllByLogin(login);
         users.forEach(u -> {
-            if (u.getPassword().equals(password)) {
+            if (passwordEncoder.matches(rawPassword, u.getPassword())) {
+                if (passwordEncoder.upgradeEncoding(u.getPassword())) {
+                    u.setPassword(passwordEncoder.encode(rawPassword));
+                    userDAO.saveAndFlush(u);
+                }
+
                 user.set(u);
             }
         });

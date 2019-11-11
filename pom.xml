@@ -31,7 +31,13 @@
   </properties>
 
   <dependencies>
-    <!--LOMBOK-->
+    <dependency>
+        <groupId>org.springframework.security</groupId>
+        <artifactId>spring-security-core</artifactId>
+        <version>5.1.6.RELEASE</version>
+    </dependency>
+
+      <!--LOMBOK-->
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>

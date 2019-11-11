@@ -5,6 +5,7 @@ import com.mainacad.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.MultiValueMap;
@@ -20,6 +21,9 @@ import java.util.Map;
 public class RegistrationController {
   @Autowired
   UserService userService;
+
+  @Autowired()
+  PasswordEncoder passwordEncoder;
 
   @GetMapping("/register")
   public String getRegistrationPage(Model model) {
@@ -55,7 +59,7 @@ public class RegistrationController {
         return respond;
       }
 
-      User user = new User(login, password, firstName, lastName);
+      User user = new User(login, passwordEncoder.encode(password), firstName, lastName);
 
       User savedUser = userService.save(user);
 

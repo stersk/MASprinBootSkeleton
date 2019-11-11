@@ -1,6 +1,6 @@
 
-INSERT INTO users (id, first_name, last_name, login, password) VALUES (12, 'Stepan', 'Rych', 'sters', '123456');
-INSERT INTO users (id, first_name, last_name, login, password) VALUES (15, 'fghfh', 'gfhfh', 'stersk', '11');
+INSERT INTO users (id, first_name, last_name, login, password) VALUES (12, 'Stepan', 'Rych', 'sters', '$2a$04$SRpLJDi8hpuxRnj/4rEkVe21lYgCG217SwU2ULd2JyQFakbQmqNbq');
+INSERT INTO users (id, first_name, last_name, login, password) VALUES (15, 'fghfh', 'gfhfh', 'stersk', '$2a$04$UmEhwVXdPh/H1WzUnggLO.9a.hr.v0sn9DqTaQndIbulRyH9pQRzS');
 
 INSERT INTO items (id, item_code, item_name, price) VALUES (1, '1234', 'First test item', 12333);
 INSERT INTO items (id, item_code, item_name, price) VALUES (2, '2222', 'Second test item', 32333);

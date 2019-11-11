@@ -1,5 +1,7 @@
 package com.mainacad.entity;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import javax.persistence.*;
 import java.io.Serializable;
@@ -34,6 +36,12 @@ public class User implements Serializable {
     @Column(name = "last_name")
     @EqualsAndHashCode.Exclude
     private String lastName;
+
+    @JsonGetter("password")
+    public String getFakePassword() {
+        return "";
+    }
+
 
     public User(String login, String password, String firstName, String lastName) {
         this.login = login;
