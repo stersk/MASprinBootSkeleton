@@ -1,4 +1,4 @@
-# MASpringBootSkeleton
+# MASpringStoreSkeleton
 
 This is a small internet store sample.
 Login/logout, cart managing supported at this moment.
