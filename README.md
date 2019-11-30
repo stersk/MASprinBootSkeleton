@@ -9,4 +9,4 @@ There are two branches:
 Using hibernate and realized as REST backend (with Swagger for testing)
 
 - **spring-data**  
-Using Spring-data and realized 2 profiles: first for using es REST-backend, and second with JSP-s.
+Using Spring-data and realized 2 profiles: first for using as REST-backend, and second with JSP-s.
