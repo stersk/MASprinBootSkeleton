@@ -19,7 +19,7 @@
     <junit.version>5.4.2</junit.version>
     <javax.version>1</javax.version>
     <hibernate.version>5.4.4.Final</hibernate.version>
-    <jackson.version>2.9.9</jackson.version>
+    <jackson.version>2.9.10.8</jackson.version>
     <jaxb.version>2.2.11</jaxb.version>
     <h2.version>1.4.199</h2.version>
     <postgres.version>42.2.5</postgres.version>
