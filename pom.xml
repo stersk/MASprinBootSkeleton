@@ -21,7 +21,7 @@
     <hibernate.version>5.4.4.Final</hibernate.version>
     <jackson.version>2.9.9</jackson.version>
     <jaxb.version>2.2.11</jaxb.version>
-    <h2.version>1.4.199</h2.version>
+    <h2.version>2.1.210</h2.version>
     <postgres.version>42.2.5</postgres.version>
     <spring-boot.version>2.1.4.RELEASE</spring-boot.version>
     <swagger.version>2.9.2</swagger.version>
